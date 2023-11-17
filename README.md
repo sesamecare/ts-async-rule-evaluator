@@ -5,7 +5,8 @@
 A simple DSL based on [Filtrex](https://github.com/joewalnes/filtrex) and its forks that supports lazy
 and asynchronous comparisons. Essentially this means the object you pass in for matching
 can include functions that don't evaluate unless a comparison asks for them, and that these
-functions can be asynchronous.
+functions can be asynchronous. Updated to be a *little* more Typescript friendly even though it's
+inherently a loosely typed system.
 
 The main thing we took from Filtrex is the grammar, which seemed like a good one,
 but modified for our use case. For example, we removed the `x of y` syntax in favor
