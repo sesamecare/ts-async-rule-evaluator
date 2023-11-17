@@ -119,10 +119,10 @@ const grammar = {
       ['NUMBER', code([1])],
       ['STRING', code([1])],
       ['SYMBOL', code(['await prop(', 1, ')'])],
-      ['SYMBOL ( )', code(['(std.isfn(fns, ', 1, ') ? fns[', 1, ']() : std.unknown(', 1, '))'])],
+      ['SYMBOL ( )', code(['(std.isfn(fns, ', 1, ') ? (await fns[', 1, ']()) : std.unknown(', 1, '))'])],
       [
         'SYMBOL ( argsList )',
-        code(['(std.isfn(fns, ', 1, ') ? fns[', 1, '](', 3, ') : std.unknown(', 1, '))']),
+        code(['(std.isfn(fns, ', 1, ') ? (await fns[', 1, '](', 3, ')) : std.unknown(', 1, '))']),
       ],
       ['e in e', code(['std.isSubset(', 1, ', ', 3, ')'])],
       ['e inexactin e', code(['std.isSubsetInexact(', 1, ', ', 3, ')'])],

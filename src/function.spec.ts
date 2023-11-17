@@ -148,11 +148,21 @@ describe('test_function', () => {
       code?.startsWith('async function anonymous(fns,std,prop'),
       'Code should start with expected value',
     ).toBeTruthy();
-    expect(
-      code?.includes(
-        'return (std.numify((std.numify((await prop("transactions"))<=(5)))&&(std.numify(((std.isfn(fns, "abs") ? fns["abs"]((await prop("profit"))) : std.unknown("abs")))> (20.5)))));',
-      ),
-      'Code should match expectation',
-    ).toBeTruthy();
+    expect(code, 'Code should match').toMatchInlineSnapshot(`
+      "async function anonymous(fns,std,prop
+      ) {
+      return (std.numify((std.numify((await prop(\\"transactions\\"))<=(5)))&&(std.numify(((std.isfn(fns, \\"abs\\") ? (await fns[\\"abs\\"]((await prop(\\"profit\\")))) : std.unknown(\\"abs\\")))> (20.5)))));
+      }"
+    `);
+  });
+
+  test('async function', async () => {
+    async function delayed(v: number) {
+      return new Promise((accept) => setTimeout(() => accept(v), 10));
+    }
+    const fn = toFunction('delayed(6) + 1', {
+      functions: { delayed },
+    });
+    expect(fn({}), 'Should match intended target').resolves.toBe(7);
   });
 });
