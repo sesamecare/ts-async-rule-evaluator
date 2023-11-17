@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js 18
+    - name: Use Node.js 20
       uses: actions/setup-node@v3
       with:
         node-version: 20
@@ -31,8 +31,8 @@ jobs:
     - name: npm install, lint, build, and test
       run: |
         yarn install --immutable
-        yarn lint
         yarn build
+        yarn lint
         yarn test
       env:
         CI: true
