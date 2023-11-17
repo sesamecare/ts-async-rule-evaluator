@@ -148,5 +148,6 @@ export const parser = new Parser(grammar);
 
 if (require.main === module) {
   const parserSource = parser.generate({ moduleType: 'js', debug: true });
+  fs.mkdirSync(path.join(__dirname, 'generated'), { recursive: true });
   fs.writeFileSync(path.join(__dirname, 'generated', 'parser.ts'), `//@ts-nocheck\n${parserSource}\nexport const FiltrexParser = parser;\n`, 'utf8');
 }
