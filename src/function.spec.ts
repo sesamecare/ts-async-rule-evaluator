@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import { resetObjectResolver, toFunction } from './index';
+import { FiltrexType, resetObjectResolver, toFunction } from './index';
 
 let counter = 0;
 let nullCounter = 0;
@@ -151,7 +151,7 @@ describe('test_function', () => {
     expect(code, 'Code should match').toMatchInlineSnapshot(`
       "async function anonymous(fns,std,prop
       ) {
-      return (std.numify((std.numify((await prop(\\"transactions\\"))<=(5)))&&(std.numify(((std.isfn(fns, \\"abs\\") ? (await fns[\\"abs\\"]((await prop(\\"profit\\")))) : std.unknown(\\"abs\\")))> (20.5)))));
+      return (std.numify((std.numify((await prop(\\"transactions\\"))<=(5)))&&(std.numify(((std.isfn(fns, \\"abs\\") ? (await fns[\\"abs\\"].call(prop, (await prop(\\"profit\\")))) : std.unknown(\\"abs\\")))> (20.5)))));
       }"
     `);
   });
@@ -165,4 +165,14 @@ describe('test_function', () => {
     });
     expect(fn({}), 'Should match intended target').resolves.toBe(7);
   });
+
+  test('"this" is prop resolver', () => {
+    function selfProp(this: (prop: string) => FiltrexType, x: string) {
+      return this(x);
+    }
+    const fn = toFunction('selfProp("foo")', {
+      functions: { selfProp },
+    });
+    expect(fn({ foo: 'bar' }), 'Should be able to access prop value').resolves.toBe('bar');
+  })
 });
